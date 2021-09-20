@@ -8,9 +8,7 @@ import routeMock from '../api-mock'
 const mock = new MockAdapter(axios)
 
 routeMock.forEach(res => {
-  mock['on'+ res.method](res.url).reply(res.status, {
-    ...res.response.data
-  })
+  mock['on'+ res.method](res.url).reply(res.status, res.response.data)
 })
 
 Vue.use(Vuex)
@@ -34,7 +32,7 @@ export default new Vuex.Store({
       state.carts = value
     },
     deleteFromCart (state, index) {
-      state.carts.splice(index, 1)
+      state.carts = state.carts.filter((object, idx) => idx !== index);
     }
   },
   actions: {
